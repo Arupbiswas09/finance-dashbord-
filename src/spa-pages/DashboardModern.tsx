@@ -90,9 +90,9 @@ const mockReportData = [
 ];
 
 const mockActivityFallback = [
-  { id: 'm1', title: 'Q3 Financial Report Sync', type: 'system', timestamp: new Date(Date.now() - 1000 * 60 * 30).toISOString(), status: 'completed' },
-  { id: 'm2', title: 'Client Onboarding #402', type: 'email', timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(), status: 'pending' },
-  { id: 'm3', title: 'Yuki Transaction Audit', type: 'yuki', timestamp: new Date(Date.now() - 1000 * 60 * 60 * 5).toISOString(), status: 'completed' },
+  { id: 'm1', title: 'Q3 Financial Report Sync', description: 'Sync completed', type: 'system', timestamp: new Date(Date.now() - 1000 * 60 * 30).toISOString(), status: 'completed' },
+  { id: 'm2', title: 'Client Onboarding #402', description: 'Awaiting documents', type: 'email', timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(), status: 'pending' },
+  { id: 'm3', title: 'Yuki Transaction Audit', description: 'Audit passed', type: 'yuki', timestamp: new Date(Date.now() - 1000 * 60 * 60 * 5).toISOString(), status: 'completed' },
 ];
 
 export default function DashboardModern() {
@@ -258,9 +258,9 @@ export default function DashboardModern() {
                             <Calendar className="w-3 h-3" />
                          </div>
                          <div className={`flex items-center gap-2.5 text-[11px] font-bold tracking-wide transition-colors ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                            <span>{formatDate(new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)).split(',')[0]}</span>
+                            <span>{formatDate(new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()).split(',')[0]}</span>
                             <span className={`font-light text-[10px] ${isDark ? 'text-slate-700' : 'text-slate-300'}`}>|</span>
-                            <span>{formatDate(new Date()).split(',')[0]}</span>
+                            <span>{formatDate(new Date().toISOString()).split(',')[0]}</span>
                          </div>
                       </div>
                       <button onClick={() => navigate('/reports')} className={`px-5 py-2.5 rounded-full text-[12px] font-bold shadow-[0_4px_12px_rgba(0,0,0,0.1)] flex items-center gap-2 ml-1 transition-colors ${isDark ? 'bg-[#D4F718] text-black hover:brightness-95' : 'bg-slate-900 text-white hover:bg-slate-800'}`}>

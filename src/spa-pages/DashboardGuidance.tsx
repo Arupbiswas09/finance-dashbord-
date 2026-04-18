@@ -122,10 +122,10 @@ const mockAssetData = [
 ];
 
 const mockActivityFallback = [
-  { id: 'm1', title: 'Stripe Payout: €450.00', type: 'system', timestamp: new Date(Date.now() - 1000 * 60 * 30).toISOString(), status: 'completed' },
-  { id: 'm2', title: 'Invoice #402', type: 'email', timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(), status: 'pending' },
-  { id: 'm3', title: 'Q3 Financial Report Sync', type: 'yuki', timestamp: new Date(Date.now() - 1000 * 60 * 60 * 5).toISOString(), status: 'completed' },
-  { id: 'm4', title: 'Ledger Audit Generated', type: 'yuki', timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(), status: 'completed' },
+  { id: 'm1', title: 'Stripe Payout: €450.00', description: 'Payout reconciled', type: 'system', timestamp: new Date(Date.now() - 1000 * 60 * 30).toISOString(), status: 'completed' },
+  { id: 'm2', title: 'Invoice #402', description: 'Awaiting approval', type: 'email', timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(), status: 'pending' },
+  { id: 'm3', title: 'Q3 Financial Report Sync', description: 'Yuki sync completed', type: 'yuki', timestamp: new Date(Date.now() - 1000 * 60 * 60 * 5).toISOString(), status: 'completed' },
+  { id: 'm4', title: 'Ledger Audit Generated', description: 'Audit trail stored', type: 'yuki', timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(), status: 'completed' },
 ];
 
 const mockActivityBars = [
