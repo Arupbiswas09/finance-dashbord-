@@ -2,14 +2,13 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { OrganizationProvider } from "@/contexts/OrganizationContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { RoleBasedRoute } from "@/components/RoleBasedRoute";
 import { FloatingChatWidget } from "@/components/FloatingChatWidget";
 import Index from "./spa-pages/Index";
-import ShowcaseHome from "./spa-pages/ShowcaseHome";
 import Login from "./spa-pages/Login";
 import Register from "./spa-pages/Register";
 import VerifyEmail from "./spa-pages/VerifyEmail";
@@ -61,9 +60,23 @@ const App = () => {
               <Toaster />
               <Sonner />
               {!isShowcaseMode() && <FloatingChatWidget />}
+              {isShowcaseMode() ? (
+              <Routes>
+                <Route path="/" element={<Navigate to="/dashboard-canvas" replace />} />
+                <Route
+                  path="/dashboard-canvas"
+                  element={
+                    <ProtectedRoute>
+                      <DashboardCanvas />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route path="*" element={<Navigate to="/dashboard-canvas" replace />} />
+              </Routes>
+              ) : (
               <Routes>
               {/* Public routes */}
-              <Route path="/" element={isShowcaseMode() ? <ShowcaseHome /> : <Index />} />
+              <Route path="/" element={<Index />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/verify-email" element={<VerifyEmail />} />
@@ -241,6 +254,7 @@ const App = () => {
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
               </Routes>
+              )}
             </TooltipProvider>
           </OrganizationProvider>
         </AuthProvider>
