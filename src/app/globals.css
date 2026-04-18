@@ -1,0 +1,163 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Copied from the Vite app so visuals match 1:1. */
+
+@layer base {
+  :root {
+    --background: 250 100% 99%;
+    --foreground: 250 10% 8%;
+
+    --card: 250 100% 99%;
+    --card-foreground: 250 10% 8%;
+
+    --popover: 250 100% 99%;
+    --popover-foreground: 250 10% 8%;
+
+    --primary: 210 77% 32%;
+    --primary-foreground: 250 100% 99%;
+    --primary-glow: 210 77% 40%;
+
+    --secondary: 250 15% 96%;
+    --secondary-foreground: 250 10% 15%;
+
+    --muted: 250 15% 96%;
+    --muted-foreground: 250 8% 45%;
+
+    --accent: 260 30% 95%;
+    --accent-foreground: 260 70% 50%;
+
+    --success: 140 70% 45%;
+    --success-foreground: 250 100% 99%;
+
+    --warning: 35 95% 55%;
+    --warning-foreground: 250 100% 99%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 250 100% 99%;
+
+    --border: 250 20% 90%;
+    --input: 250 20% 95%;
+    --ring: 260 70% 50%;
+
+    --radius: 0.75rem;
+
+    --org-primary: 218 45% 18%;
+    --org-primary-foreground: 0 0% 100%;
+    --org-primary-light: 218 45% 33%;
+    --org-primary-dark: 218 45% 3%;
+    --org-secondary: 0 0% 0%;
+    --org-secondary-foreground: 0 0% 100%;
+    --org-secondary-light: 0 0% 15%;
+    --org-secondary-dark: 0 0% 0%;
+    --org-primary-hex: #3d52a0;
+    --org-secondary-hex: #f87171;
+
+    --gradient-primary: linear-gradient(
+      to bottom,
+      var(--org-primary-hex),
+      var(--org-primary-hex)dd,
+      var(--org-primary-hex)aa
+    );
+    --gradient-hero: linear-gradient(
+      to bottom,
+      var(--org-primary-hex),
+      var(--org-primary-hex)dd,
+      var(--org-primary-hex)aa
+    );
+    --gradient-card: linear-gradient(145deg, hsl(var(--card)), hsl(250 30% 98%));
+
+    --shadow-card: 0 4px 20px -2px hsl(var(--primary) / 0.1);
+    --shadow-glow: 0 0 40px hsl(var(--primary-glow) / 0.3);
+
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-spring: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    --sidebar-bg-start: 218 45% 18%;
+    --sidebar-bg-end: 220 35% 28%;
+    --sidebar-active: 220 40% 22%;
+    --sidebar-text: 0 0% 100%;
+    --sidebar-text-muted: 220 20% 70%;
+
+    --accent-blue: 210 100% 60%;
+    --status-completed: 160 65% 75%;
+    --reset-pink: 350 85% 60%;
+
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 0 0% 20%;
+    --sidebar-primary: 220 40% 22%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 40% 22%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 0 0% 90%;
+    --sidebar-ring: 210 100% 60%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 0 0% 20%;
+    --sidebar-primary: 0 0% 10%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 0 0% 96%;
+    --sidebar-accent-foreground: 0 0% 10%;
+    --sidebar-border: 0 0% 90%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  *::-webkit-scrollbar-track {
+    background: #f3f4f6;
+    border-radius: 4px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: #9ca3af;
+    border-radius: 4px;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background: #6b7280;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
