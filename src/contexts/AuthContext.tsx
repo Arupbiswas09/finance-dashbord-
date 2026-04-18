@@ -2,6 +2,7 @@ import React, { createContext, useState, useContext, useEffect, ReactNode } from
 import axios from 'axios';
 import { API_BASE_URL, API_ENDPOINTS } from '../lib/api';
 import { extractErrorMessage } from '../lib/errorHandling';
+import { isShowcaseMode } from '@/lib/showcaseMode';
 
 interface Organization {
   id: number;
@@ -129,6 +130,25 @@ axiosAuth.interceptors.response.use(
   }
 );
 
+const SHOWCASE_USER: User = {
+  id: 1,
+  email: 'demo.client@example.com',
+  full_name: 'Alex Client',
+  profile_photo_url: null,
+  is_active: true,
+  is_verified: true,
+  role: { id: 1, name: 'admin', description: 'Demo' },
+  organization: {
+    id: 1,
+    name: 'Demo Company BV',
+    org_id: 'demo-org',
+    description: null,
+    is_active: true,
+    logo_url: null,
+  },
+  auth_method: 'showcase',
+};
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const useAuth = () => {
@@ -144,12 +164,18 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<User | null>(() =>
+    isShowcaseMode() ? SHOWCASE_USER : null,
+  );
+  const [loading, setLoading] = useState(() => !isShowcaseMode());
   const [error, setError] = useState<string | null>(null);
 
   // Fetch current user on mount and maintain authentication state
   useEffect(() => {
+    if (isShowcaseMode()) {
+      return;
+    }
+
     const initializeAuth = async () => {
       const token = localStorage.getItem('access_token');
       const refreshToken = localStorage.getItem('refresh_token');
@@ -204,7 +230,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // Automatic token refresh every 50 minutes (before 60 min expiration)
   useEffect(() => {
-    if (!user) return; // Only run when user is logged in
+    if (isShowcaseMode() || !user) return;
 
     const REFRESH_INTERVAL = 50 * 60 * 1000; // 50 minutes in milliseconds
 
@@ -245,7 +271,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // Firebase-like behavior: Refresh token when tab becomes visible again
   useEffect(() => {
-    if (!user) return;
+    if (isShowcaseMode() || !user) return;
 
     const handleVisibilityChange = async () => {
       if (document.visibilityState === 'visible') {
@@ -300,7 +326,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // Firebase-like behavior: Check and refresh token on window focus
   useEffect(() => {
-    if (!user) return;
+    if (isShowcaseMode() || !user) return;
 
     const handleFocus = async () => {
       const refreshToken = localStorage.getItem('refresh_token');
@@ -351,6 +377,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, [user]);
 
   const login = async (email: string, password: string) => {
+    if (isShowcaseMode()) {
+      setUser(SHOWCASE_USER);
+      return;
+    }
     try {
       setError(null);
       // In local development, allow a bypass login that issues legacy JWTs from the backend
@@ -418,6 +448,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const logout = async () => {
+    if (isShowcaseMode()) {
+      window.location.href = '/';
+      return;
+    }
     try {
       const refreshToken = localStorage.getItem('refresh_token');
       

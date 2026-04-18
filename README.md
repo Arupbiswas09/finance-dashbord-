@@ -16,6 +16,21 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Client UI showcase (mock only)
+
+For a **standalone demo** (no API, no login, mock dashboard data):
+
+1. Copy the env file and start the dev server:
+
+```bash
+cp .env.showcase.example .env.local
+npm run dev
+```
+
+2. Open [http://localhost:3000](http://localhost:3000) — you get a theme picker, then **Theme 1–3** plus Precision, Editorial, and Canvas. The pill bar on the main shells switches Theme 1 / 2 / 3 without calling the backend.
+
+To ship this mode on Vercel (or similar), set `NEXT_PUBLIC_SHOWCASE_MODE=true` in the project environment variables.
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.

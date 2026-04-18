@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext, useEffect, useCallback, ReactNode } from 'react';
 import { useAuth, axiosAuth } from '@/contexts/AuthContext';
 import { hexToHsl, lightenHsl, darkenHsl, getForegroundColor } from '@/lib/theme';
+import { isShowcaseMode } from '@/lib/showcaseMode';
 
 interface OrganizationTheme {
   primary: string;
@@ -76,7 +77,7 @@ export const OrganizationProvider: React.FC<OrganizationProviderProps> = ({ chil
     primary: DEFAULT_PRIMARY,
     secondary: DEFAULT_SECONDARY,
     logo_url: user?.organization?.logo_url || null,
-    loading: true,
+    loading: !isShowcaseMode(),
     error: null,
   });
 
@@ -86,6 +87,10 @@ export const OrganizationProvider: React.FC<OrganizationProviderProps> = ({ chil
   }, []);
 
   const fetchOrganizationData = useCallback(async () => {
+    if (isShowcaseMode()) {
+      setTheme((prev) => ({ ...prev, loading: false, error: null }));
+      return;
+    }
     if (!user?.organization?.id || !isAuthenticated) {
       // If no user or organization, keep defaults
       setTheme(prev => ({

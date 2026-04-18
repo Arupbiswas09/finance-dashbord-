@@ -3,6 +3,11 @@ import { useAuth } from "@/contexts/AuthContext";
 import { buildApiUrl, getAuthHeaders, API_ENDPOINTS } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { useOrganizationColors } from "@/hooks/useOrganizationColors";
+import { isShowcaseMode } from "@/lib/showcaseMode";
+import {
+  SHOWCASE_DASHBOARD_STATS,
+  SHOWCASE_RECENT_ACTIVITY,
+} from "@/lib/showcaseMockData";
 
 // Dashboard data types
 export interface DashboardStats {
@@ -82,6 +87,14 @@ export function useDashboardData() {
   }, [toast]);
 
   useEffect(() => {
+    if (isShowcaseMode()) {
+      setDashboardStats(SHOWCASE_DASHBOARD_STATS as unknown as DashboardStats);
+      setRecentActivity(
+        SHOWCASE_RECENT_ACTIVITY.map((a) => ({ ...a })) as Activity[],
+      );
+      setLoadingData(false);
+      return;
+    }
     if (!loading && user) {
       fetchDashboardData();
     }

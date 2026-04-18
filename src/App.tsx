@@ -9,6 +9,7 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { RoleBasedRoute } from "@/components/RoleBasedRoute";
 import { FloatingChatWidget } from "@/components/FloatingChatWidget";
 import Index from "./spa-pages/Index";
+import ShowcaseHome from "./spa-pages/ShowcaseHome";
 import Login from "./spa-pages/Login";
 import Register from "./spa-pages/Register";
 import VerifyEmail from "./spa-pages/VerifyEmail";
@@ -36,6 +37,7 @@ import DashboardGuidance from "./spa-pages/DashboardGuidance";
 import DashboardModern from "./spa-pages/DashboardModern";
 import AnalyticsModern from "./spa-pages/AnalyticsModern";
 import { useEffect } from "react";
+import { isShowcaseMode } from "@/lib/showcaseMode";
 
 const queryClient = new QueryClient();
 
@@ -58,10 +60,10 @@ const App = () => {
             <TooltipProvider>
               <Toaster />
               <Sonner />
-              <FloatingChatWidget />
+              {!isShowcaseMode() && <FloatingChatWidget />}
               <Routes>
               {/* Public routes */}
-              <Route path="/" element={<Index />} />
+              <Route path="/" element={isShowcaseMode() ? <ShowcaseHome /> : <Index />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/verify-email" element={<VerifyEmail />} />

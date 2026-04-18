@@ -2,6 +2,7 @@ import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Loader2 } from 'lucide-react';
+import { isShowcaseMode } from '@/lib/showcaseMode';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -16,6 +17,10 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 }) => {
   const { isAuthenticated, loading, hasRole } = useAuth();
   const location = useLocation();
+
+  if (isShowcaseMode()) {
+    return <>{children}</>;
+  }
 
   // Show loading spinner while checking authentication
   if (loading) {
