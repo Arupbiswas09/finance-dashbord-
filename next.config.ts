@@ -1,18 +1,29 @@
 import type { NextConfig } from "next";
 
 /**
- * Vercel sets `VERCEL=1` during `next build`. Without a dashboard env var, deploys were
- * still shipping the marketing `/` page. Default showcase routes on Vercel unless
- * `NEXT_PUBLIC_SHOWCASE_MODE` is explicitly set (e.g. `false` for a full-app deployment).
+ * Vercel (`VERCEL=1` during `next build`): default to **showcase** — only the three theme
+ * dashboards (see `ShowcaseRoutes.tsx`). No marketing `/` or auth routes in the initial bundle.
+ *
+ * To deploy the **full** app on Vercel, set project env: `NEXT_PUBLIC_SHOWCASE_MODE=false`
+ *
+ * Vercel project **Root Directory** must be `frontend-next` (this folder).
  */
 function resolvedShowcaseMode(): string {
-  const explicit = process.env.NEXT_PUBLIC_SHOWCASE_MODE;
-  if (explicit !== undefined && explicit !== "") {
-    return explicit;
+  const raw = process.env.NEXT_PUBLIC_SHOWCASE_MODE;
+  const explicit =
+    raw === undefined || raw === null ? "" : String(raw).trim().toLowerCase();
+
+  if (explicit === "false" || explicit === "0" || explicit === "no") {
+    return "false";
   }
+  if (explicit === "true" || explicit === "1" || explicit === "yes") {
+    return "true";
+  }
+
   if (process.env.VERCEL === "1") {
     return "true";
   }
+
   return "";
 }
 
